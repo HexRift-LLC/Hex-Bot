@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= config.get('bot.name') %> - Discord Bot</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="/images/logo.png" alt="Bot Logo" class="logo">
+            <span><%= config.get('bot.name') %></span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/commands" class="nav-link">Commands</a>
+            <a href="https://discord.gg/<%= config.get('bot.support_server') %>" class="nav-link">Support</a>
+        </div>
+        <div class="nav-mobile">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>

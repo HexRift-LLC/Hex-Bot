@@ -1,0 +1,109 @@
+<%- include('partials/header') %>
+
+<main class="main-content">
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content animate-fade-up">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Next Generation</span>
+                    Discord Bot
+                </h1>
+                <p class="hero-subtitle">Elevate your Discord server with powerful moderation, music, and custom commands</p>
+                <div class="hero-actions">
+                    <a href="/dashboard" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Launch Dashboard
+                    </a>
+                    <a href="<%= config.get('bot.invite_link') %>" class="btn btn-outline">
+                        <i class="fab fa-discord"></i>
+                        Add to Server
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-background">
+            <div class="gradient-overlay"></div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Features</h2>
+                <p class="section-subtitle">Everything you need to manage your community</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Advanced Moderation</h3>
+                    <p>Complete control over your server with smart moderation tools</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Premium Music</h3>
+                    <p>High-quality music streaming with advanced queue management</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Custom Commands</h3>
+                    <p>Create and manage custom commands for your server</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analytics</h3>
+                    <p>Detailed insights and statistics about your server</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-value"><%= bot.guilds?.size || 0 %></h3>
+                        <h1 class="stat-label">Active Servers</h1>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-value"><%= bot.users?.size || 0 %></h3>
+                        <h1 class="stat-label">Total Users</h1>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-value"><%= config.get('commands.enabled').length %></h3>
+                        <h1 class="stat-label">Commands</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<%- include('partials/footer') %>

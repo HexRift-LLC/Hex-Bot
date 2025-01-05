@@ -1,0 +1,34 @@
+bot:
+  name: "Your Bot Name"
+  token: "MTMxMTQwMzUzNDIwOTc4MTc3MA.GiS1ba.TzUr6LD9CjSBtNTFk9-lhA27T0yZ3UBUC0T6uc"
+  prefix: "!"
+  status: "online"
+  activity: "Watching servers"
+
+website:
+  port: 3000
+  session_secret: "FgLw&ZA89LZf!uSn@VD@YSH7fj@*jIji#3V4AVcNdlK&z@kA6o"
+  base_url: "http://localhost:3000"
+
+admins:
+  - "392855285263499274"
+  
+commands:
+  enabled:
+    - kick
+    - ban
+    - help
+    - ping
+    
+logging:
+  enabled: true
+  channel: "bot-logs"
+  
+database:
+  type: "sqlite"
+  path: "./data/database.sqlite"
+
+themes:
+  primary_color: "#ff3333"
+  secondary_color: "#1a1a1a"
+  accent_color: "#ffffff"
