@@ -106,44 +106,6 @@ async function setupWizard() {
             }
         ]);
 
-        // Logging Configuration
-        console.log("[Wizard]:".cyan, `Logging Configuration\n`);
-        const logsConfig = await inquirer.prompt([
-            {
-                type: 'confirm',
-                name: 'enabled',
-                message: console.log("[System]:".blue, `Enable server logging?`),
-                default: true
-            },
-            {
-                type: 'input',
-                name: 'channelId',
-                message: console.log("[System]:".blue, `Log channel ID:`),
-                when: (answers) => answers.enabled,
-                validate: input => input.length > 0 ? true : 'Channel ID is required when logging is enabled'
-            },
-            {
-                type: 'checkbox',
-                name: 'events',
-                message: console.log("[System]:".blue, `Select events to log:`),
-                when: (answers) => answers.enabled,
-                choices: [
-                    { name: 'Message Delete', value: 'messageDelete', checked: true },
-                    { name: 'Message Update', value: 'messageUpdate', checked: true },
-                    { name: 'Member Join', value: 'memberJoin', checked: true },
-                    { name: 'Member Leave', value: 'memberLeave', checked: true },
-                    { name: 'Member Update', value: 'memberUpdate', checked: true },
-                    { name: 'Channel Create', value: 'channelCreate', checked: true },
-                    { name: 'Channel Delete', value: 'channelDelete', checked: true },
-                    { name: 'Role Create', value: 'roleCreate', checked: true },
-                    { name: 'Role Delete', value: 'roleDelete', checked: true },
-                    { name: 'Voice State Update', value: 'voiceStateUpdate', checked: true },
-                    { name: 'Ban Add', value: 'banAdd', checked: true },
-                    { name: 'Ban Remove', value: 'banRemove', checked: true }
-                ]
-            }
-        ]);
-
         // Create Configuration Object
         const config = {
             Bot: botConfig,
@@ -154,20 +116,8 @@ async function setupWizard() {
             },
             Embed: embedConfig,
             Logs: {
-                enabled: logsConfig.enabled,
-                channelId: logsConfig.channelId,
-                messageDelete: logsConfig.events?.includes('messageDelete'),
-                messageUpdate: logsConfig.events?.includes('messageUpdate'),
-                memberJoin: logsConfig.events?.includes('memberJoin'),
-                memberLeave: logsConfig.events?.includes('memberLeave'),
-                memberUpdate: logsConfig.events?.includes('memberUpdate'),
-                channelCreate: logsConfig.events?.includes('channelCreate'),
-                channelDelete: logsConfig.events?.includes('channelDelete'),
-                roleCreate: logsConfig.events?.includes('roleCreate'),
-                roleDelete: logsConfig.events?.includes('roleDelete'),
-                voiceStateUpdate: logsConfig.events?.includes('voiceStateUpdate'),
-                banAdd: logsConfig.events?.includes('banAdd'),
-                banRemove: logsConfig.events?.includes('banRemove')
+                enabled: true,
+                channelId: null
             }
         };
 
@@ -184,8 +134,8 @@ async function setupWizard() {
         console.log("[System]:".yellow, `Saving configuration...`);
         fs.writeFileSync('config.yml', yaml.dump(config));
         console.log("[System]:".green, `Configuration saved successfully!`);
-        console.log("[System]:".green, `Setup complete! Your bot is ready to go.`);
-        console.log("[System]:".cyan, `Start your Hex Bot with: npm start\n`);
+        console.log("[System]:".green, `Setup complete! Hex Bot is ready to go.`);
+        console.log("[System]:".cyan, `Start Hex Bot with: npm start\n`);
 
     } catch (error) {
         console.log("[System]:".red, `Error during setup:`, error);

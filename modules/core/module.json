@@ -1,0 +1,17 @@
+{
+    "name": "Core",
+    "version": "1.0.0",
+    "author": "Hex",
+    "description": "Core bot functionality",
+    "enabled": true,
+    "commands": [
+        {
+            "name": "ping",
+            "description": "Shows bot latency"
+        },
+        {
+            "name": "help",
+            "description": "Shows all commands"
+        }
+    ]
+}

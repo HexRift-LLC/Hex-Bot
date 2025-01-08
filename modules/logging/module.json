@@ -1,0 +1,13 @@
+{
+    "name": "Logging",
+    "version": "1.0.0",
+    "author": "Hex",
+    "description": "Advanced server logging system",
+    "enabled": true,
+    "commands": [
+        {
+            "name": "logging",
+            "description": "Configure logging settings"
+        }
+    ]
+}
