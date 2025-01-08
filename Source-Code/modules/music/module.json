@@ -1,0 +1,17 @@
+{
+    "name": "Music",
+    "version": "1.0.0",
+    "author": "Hex",
+    "description": "Music player functionality",
+    "enabled": true,
+    "commands": [
+        {
+            "name": "play",
+            "description": "Play a song from YouTube or URL"
+        },
+        {
+            "name": "stop",
+            "description": "Stop the current song and clear queue"
+        }
+    ]
+}

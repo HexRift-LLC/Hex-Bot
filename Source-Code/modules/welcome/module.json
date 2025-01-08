@@ -1,0 +1,13 @@
+{
+    "name": "Welcome",
+    "version": "1.0.0",
+    "author": "Hex",
+    "description": "Welcomes new members with customizable messages",
+    "enabled": true,
+    "commands": [
+        {
+            "name": "welcome-config",
+            "description": "Configure welcome messages and settings"
+        }
+    ]
+}
