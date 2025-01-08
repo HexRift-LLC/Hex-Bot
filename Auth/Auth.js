@@ -77,7 +77,7 @@ class WebhookManager {
 class AuthClient {
     #config;
     #webhookManager;
-    #PRODUCT_ID = '40';
+    #PRODUCT_ID = '42';
     #API_BASE_URL = 'https://api.hexmodz.com/api';
 
     constructor() {
