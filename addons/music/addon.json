@@ -1,0 +1,7 @@
+{
+    "name": "Music",
+    "version": "1.0.0",
+    "author": "YourName",
+    "description": "Music player functionality",
+    "enabled": true
+}

@@ -1,0 +1,7 @@
+{
+    "name": "Welcome",
+    "version": "1.0.0",
+    "author": "YourName",
+    "description": "Welcomes new members with customizable messages",
+    "enabled": true
+}

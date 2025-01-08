@@ -1,0 +1,10 @@
+Bot:
+  token: MTMxMTQwMzUzNDIwOTc4MTc3MA.GwyH_P.uaD-sEToaDgUYygLo0YBs_ACdJEIdTy9Jaz_uo
+  clientId: '1311403534209781770'
+System:
+  version: 1.0.0
+
+Theme:
+ embedColor: '#ff0000'
+ embedFooter: 'Hex Bot'
+ footerIcon: 'https://cdn.discordapp.com/attachments/1311403534209781770/1311403535391625216/logo.png'

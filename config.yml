@@ -1,34 +1,27 @@
-bot:
-  name: "Your Bot Name"
-  token: "MTMxMTQwMzUzNDIwOTc4MTc3MA.GiS1ba.TzUr6LD9CjSBtNTFk9-lhA27T0yZ3UBUC0T6uc"
-  prefix: "!"
-  status: "online"
-  activity: "Watching servers"
-
-website:
+Bot:
+  token: MTMxMTQwMzUzNDIwOTc4MTc3MA.GwyH_P.uaD-sEToaDgUYygLo0YBs_ACdJEIdTy9Jaz_uo
+  clientId: '1311403534209781770'
+System:
   port: 3000
-  session_secret: "FgLw&ZA89LZf!uSn@VD@YSH7fj@*jIji#3V4AVcNdlK&z@kA6o"
-  base_url: "http://localhost:3000"
-
-admins:
-  - "392855285263499274"
-  
-commands:
-  enabled:
-    - kick
-    - ban
-    - help
-    - ping
-    
-logging:
+  ownerID: '392855285263499274'
+  version: 1.0.0
+  startTime: '2025-01-08T01:22:14.953Z'
+Embed:
+  embedColor: '#ff0000'
+  footerText: Powered by Hex Bot
+  footerIcon: https://hexmodz.com/assets/logo.png
+Logs:
   enabled: true
-  channel: "bot-logs"
-  
-database:
-  type: "sqlite"
-  path: "./data/database.sqlite"
-
-themes:
-  primary_color: "#ff3333"
-  secondary_color: "#1a1a1a"
-  accent_color: "#ffffff"
+  channelId: '1326355027765366785'
+  messageDelete: true
+  messageUpdate: true
+  memberJoin: true
+  memberLeave: true
+  memberUpdate: true
+  channelCreate: true
+  channelDelete: true
+  roleCreate: true
+  roleDelete: true
+  voiceStateUpdate: true
+  banAdd: true
+  banRemove: true
