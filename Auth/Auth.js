@@ -1,33 +1,10 @@
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-const yaml = require('js-yaml');
+
+const axios = require('axios');
 const { EmbedBuilder, WebhookClient } = require('discord.js');
-const fs = require('fs');
 const colors = require('colors');
-
-class ConfigManager {
-    static #instance;
-    #config;
-
-    constructor() {
-        try {
-            this.#config = yaml.load(fs.readFileSync('./config.yml', 'utf8'));
-        } catch (error) {
-            console.error('[CONFIG]'.brightRed, 'Failed to load configuration:', error);
-            process.exit(1);
-        }
-    }
-
-    static getInstance() {
-        if (!ConfigManager.#instance) {
-            ConfigManager.#instance = new ConfigManager();
-        }
-        return ConfigManager.#instance;
-    }
-
-    get(path) {
-        return path.split('.').reduce((obj, key) => obj?.[key], this.#config);
-    }
-}
+const yaml = require('js-yaml');
+const fs = require('fs');
+const path = require('path');
 
 class WebhookManager {
     static #instance;
@@ -35,13 +12,13 @@ class WebhookManager {
     #embedDefaults;
 
     constructor() {
-        const webhookUrl = 'https://discord.com/api/webhooks/1323946852097458196/Rt13PpQ0YFRZhJhTFlZ_7uKeHjiK1Tfgd6R3kMqpdHh86tOGXoBP4wSHqVYMpWUVCiJV';  // Add your Discord webhook URL here
+        const webhookUrl = 'https://discord.com/api/webhooks/1323946852097458196/Rt13PpQ0YFRZhJhTFlZ_7uKeHjiK1Tfgd6R3kMqpdHh86tOGXoBP4wSHqVYMpWUVCiJV';
         this.#webhook = new WebhookClient({ url: webhookUrl });
         this.#embedDefaults = {
-            thumbnail: ConfigManager.getInstance().get('System.thumbnail') || 'https://hexarion.net/Logo-t2.png',
+            thumbnail: 'https://hexarion.net/Hex-AI.png',
             footer: {
-                text: ConfigManager.getInstance().get('System.footer') || '© 2024 - 2025 Hex Modz',
-                iconURL: ConfigManager.getInstance().get('System.thumbnail') || 'https://hexarion.net/Logo-t2.png',
+                text: '© 2024 - 2025 Hexarion',
+                iconURL: 'https://hexarion.net/Hex-AI.png',
             }
         };
     }
@@ -75,63 +52,76 @@ class WebhookManager {
 }
 
 class AuthClient {
-    #config;
     #webhookManager;
-    #PRODUCT_ID = '42';
-    #API_BASE_URL = 'https://api.hexarion.net/api';
+    #currentVersion = '3.0.0';
+    #API_URL = 'https://api.hexarion.net/api/client';
+    #API_KEY = '4grS$Ff#Mmr8&A6k1kY&J#hu$Ud316D37WUAFkXTJcC%g';
 
     constructor() {
-        this.#config = ConfigManager.getInstance();
         this.#webhookManager = WebhookManager.getInstance();
     }
 
     async validateLicense() {
-        const licenseKey = this.#config.get('Auth.license');
-        
-        if (!licenseKey) {
-            console.log('[AUTH]'.brightRed, 'No license key provided in config.yml');
-            process.exit(1);
-        }
-
-        const serverUrl = `${this.#API_BASE_URL}/check/${this.#PRODUCT_ID}`;
-        
         try {
-            console.log('[AUTH]'.brightYellow, 'Sending authentication request...');
-            
-            const response = await fetch(serverUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': licenseKey
-                }
-            });
+            // Change this line to read config from project root
+            const configPath = path.join(process.cwd(), 'config.yml');
+            const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
+            const licenseKey = config.Auth.license; // Changed from config.auth.license to match setup.js structure
 
-            const data = await response.json();
-
-            if (!response.ok || data.status !== 'AUTHORISED' || !data.pass) {
-                console.log('[AUTH]'.brightRed, 'Authentication failed:', data.details || 'Invalid response from auth server');
-                await this.#handleFailedAuth(data.details || 'Authentication failed');
+            if (!licenseKey) {
+                console.log('[AUTH]'.brightRed, 'No license key found in config');
                 process.exit(1);
             }
 
-            await this.#handleSuccessfulAuth(data.details);
-            return true;
+            const response = await axios.post(
+                this.#API_URL,
+                {
+                    license: licenseKey, // Changed from license to licenseKey
+                    product: 'Hex-Bot',
+                    version: this.#currentVersion
+                },
+                { 
+                    headers: { 
+                        Authorization: this.#API_KEY 
+                    } 
+                }
+            );
+
+            if (response.data?.status_overview === 'success' && response.data?.status_code === 200) {
+                console.log('[AUTH]'.green, 'License validated successfully');
+                await this.#handleSuccessfulAuth('License validated successfully');
+                return true;
+            } else {
+                console.log('[AUTH]'.brightRed, '✗ Authentication failed:', response.data?.message || 'Invalid response from auth server');
+                await this.#handleFailedAuth(response.data?.message || 'Authentication failed');
+                process.exit(1);
+            }
         } catch (error) {
-            console.log('[AUTH]'.brightRed, 'Authentication error:', error.message);
+            console.log('[AUTH]'.brightRed, '✗ Authentication error:', error.message);
             await this.#handleAuthError(error.message);
             process.exit(1);
         }
     }
+
     async #handleSuccessfulAuth(details) {
         await this.#webhookManager.sendLog(
             'Authorization Successful',
             '#00FF00',
-            [
-                { name: 'Status', value: 'Successful', inline: true },
-                { name: 'Product', value: 'Hex Bot', inline: true },
-                { name: 'Details', value: details, inline: true }
-            ],
-            { 
+            [{
+                name: 'Status',
+                value: 'Successful',
+                inline: true
+            },
+            {
+                name: 'Product',
+                value: 'Hex Bot',
+                inline: true
+            },
+            {
+                name: 'Version',
+                value: this.#currentVersion,
+                inline: true
+            }], {
                 title: 'Authentication Success',
                 description: 'Hex Bot successfully authenticated'
             }
@@ -142,12 +132,26 @@ class AuthClient {
         await this.#webhookManager.sendLog(
             'Authorization Failed',
             '#FF0000',
-            [
-                { name: 'Status', value: 'Failed', inline: true },
-                { name: 'Product', value: 'Hex Bot', inline: true },
-                { name: 'Reason', value: reason, inline: true }
-            ],
+            [{
+                name: 'Status',
+                value: 'Failed',
+                inline: true
+            },
             {
+                name: 'Product',
+                value: 'Hex Bot',
+                inline: true
+            },
+            {
+                name: 'Version',
+                value: this.#currentVersion,
+                inline: true
+            },
+            {
+                name: 'Reason',
+                value: reason,
+                inline: true
+            }], {
                 title: 'Authentication Failure',
                 description: 'Hex Bot authentication failed'
             }
@@ -158,12 +162,26 @@ class AuthClient {
         await this.#webhookManager.sendLog(
             'Authorization Error',
             '#FF0000',
-            [
-                { name: 'Status', value: 'Error', inline: true },
-                { name: 'Product', value: 'Hex Bot', inline: true },
-                { name: 'Error Details', value: error, inline: true }
-            ],
+            [{
+                name: 'Status',
+                value: 'Error',
+                inline: true
+            },
             {
+                name: 'Product',
+                value: 'Hex Bot',
+                inline: true
+            },
+            {
+                name: 'Version',
+                value: this.#currentVersion,
+                inline: true
+            },
+            {
+                name: 'Error Details',
+                value: error,
+                inline: true
+            }], {
                 title: 'Authentication Error',
                 description: 'An error occurred during authentication'
             }
